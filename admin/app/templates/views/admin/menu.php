@@ -17,12 +17,12 @@
 					<div class="category static">
 
 						<!-- Title box -->
-						<a href="<?= sysData('public-domain') ?>" class="title-box grid">
-							
-							<div class="img cont inlb" <?= background_image(__ICON__.'pages/home.svg') ?>></div>
-							
+						<a href="/" class="title-box grid">
+
+							<div class="img cont inlb" <?= background_image(__ICON__ . 'pages/home.svg') ?>></div>
+
 							<p class="title txt-line inlb">Homepage</p>
-							
+
 						</a>
 
 					</div>
@@ -41,11 +41,11 @@
 
 							<!-- Title box -->
 							<div class="title-box grid">
-								
-								<div class="img cont inlb" <?= background_image('/app/resources/icons/navigation/'.$category['slug'].'.svg') ?>></div>
-								
+
+								<div class="img cont inlb" <?= background_image('/app/resources/icons/navigation/' . $category['slug'] . '.svg') ?>></div>
+
 								<p class="title txt-line inlb"><?= $category['name'] ?></p>
-								
+
 							</div>
 
 							<!-- Dropdown -->

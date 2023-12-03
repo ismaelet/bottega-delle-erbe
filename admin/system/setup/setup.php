@@ -1,5 +1,9 @@
 <?php
 
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+(Dotenv\Dotenv::createImmutable(__DIR__ . '/../../'))->load();
+
 //setup global variables
 global $user;
 
@@ -19,9 +23,9 @@ define('__ICON__', '/system/resources/icons/');
 define('__IMG__', '/app/resources/images/');
 define('__LOGO__', '/app/resources/logo/');
 
-include_once(__ROOT__.'/app/config/config.php');
+include_once(__ROOT__ . '/app/config/config.php');
 
-if (!isset($sysData['admin-domain'])) $sysData['admin-domain'] = $sysData['public-domain'].'admin';
+if (!isset($sysData['admin-domain'])) $sysData['admin-domain'] = $sysData['public-domain'] . 'admin';
 if (!isset($sysData['logged-redirect'])) $sysData['logged-redirect'] = '';
 
 date_default_timezone_set($sysData['timezone']);
@@ -31,7 +35,6 @@ if (!$sysData['static']) {
 
 	$con = new mysqli($sysData['hostname'], $sysData['username'], $sysData['password'], $sysData['database']) or exit('Can\'t connect to the database');
 	$con->query('SET NAMES utf8');
-
 }
 
 //load basic resources
@@ -44,7 +47,6 @@ if ($full) {
 
 	include_once('middlewares.php');
 	foreach (scan('/app/routes', 'php') as $route) include_once($route);
-
 }
 
 //recover login

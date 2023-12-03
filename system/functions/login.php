@@ -15,10 +15,9 @@ function login($username, $password, $url = false, $remember = false) {
 
 		//update old passwords
 		if ($dbPassword[0] != '$' && ($password == $dbPassword || md5($password) == $dbPassword)) {
-			
+
 			$dbPassword = password_hash($password, PASSWORD_DEFAULT);
 			DB::update('users SET password=? WHERE id=?', [$dbPassword, $id]);
-			
 		}
 
 		//login if the password is correct
@@ -32,7 +31,7 @@ function login($username, $password, $url = false, $remember = false) {
 
 			//remember me
 			if ($remember) {
-				
+
 				$selector = bin2hex(random_bytes(6));
 				$validator = bin2hex(random_bytes(12));
 				$validatorHash = hash('sha256', $validator);
@@ -40,36 +39,35 @@ function login($username, $password, $url = false, $remember = false) {
 				DB::add('auth_tokens (selector, validator, userID, expiration) VALUES (?, ?, ?, (NOW() + INTERVAL 1 MONTH))', [$selector, $validatorHash, $id]);
 
 				setcookie('auth_token', $selector . '_' . $validator, time() + 60 * 60 * 24 * 30);
-
 			}
 
 			//transfer session cart data to user if set
-			if ($user->id && DB::table('ecommerce_carts')) {
+			// if ($user->id && DB::table('ecommerce_carts')) {
 
-				$tempCart = DB::row('id, quantity, tot FROM ecommerce_carts WHERE buyerID=? AND status=0', [$user->id]);
+			// 	$tempCart = DB::row('id, quantity, tot FROM ecommerce_carts WHERE buyerID=? AND status=0', [$user->id]);
 
-				if ($tempCart) {
+			// 	if ($tempCart) {
 
-					$userCartId = DB::find('id FROM ecommerce_carts WHERE buyerID=? AND status=0', [$id]);
+			// 		$userCartId = DB::find('id FROM ecommerce_carts WHERE buyerID=? AND status=0', [$id]);
 
-					//if the user has a cart transfer the session orders to it
-					if ($userCartId) {
+			// 		//if the user has a cart transfer the session orders to it
+			// 		if ($userCartId) {
 
-						DB::update('ecommerce_orders SET cartId=? WHERE cartId=?', [$userCartId, $tempCart['id']]);
-						DB::update('ecommerce_carts SET quantity=quantity+?, tot=tot+? WHERE cartId=?', [$tempCart['quantity'], $tempCart['tot'], $userCartId]);
-						DB::delete('ecommerce_carts WHERE id=?', [$tempCart['id']]);
+			// 			DB::update('ecommerce_orders SET cartId=? WHERE cartId=?', [$userCartId, $tempCart['id']]);
+			// 			DB::update('ecommerce_carts SET quantity=quantity+?, tot=tot+? WHERE cartId=?', [$tempCart['quantity'], $tempCart['tot'], $userCartId]);
+			// 			DB::delete('ecommerce_carts WHERE id=?', [$tempCart['id']]);
 
-					//otherwise convert the session cart to the user cart
-					} else {
+			// 		//otherwise convert the session cart to the user cart
+			// 		} else {
 
-						DB::update('ecommerce_carts SET buyerID=? WHERE id=?', [$id, $tempCart['id']]);
-						DB::update('ecommerce_orders SET buyerID=? WHERE cartId=?', [$id, $tempCart['id']]);
+			// 			DB::update('ecommerce_carts SET buyerID=? WHERE id=?', [$id, $tempCart['id']]);
+			// 			DB::update('ecommerce_orders SET buyerID=? WHERE cartId=?', [$id, $tempCart['id']]);
 
-					}
+			// 		}
 
-				}
+			// 	}
 
-			}
+			// }
 
 			//login
 			$_SESSION['user'] = $id;
@@ -78,16 +76,13 @@ function login($username, $password, $url = false, $remember = false) {
 
 			//redirect
 			redirect($url);
-
 		}
-
 	}
 
 	if (isset($_SESSION['login_attempts'])) $_SESSION['login_attempts']++;
 	else $_SESSION['login_attempts'] = 1;
 
 	return 'error_wrong';
-
 }
 
 //direct login
@@ -119,13 +114,10 @@ function login_direct($token) {
 
 			//remove old accesses
 			DB::delete('auth_tokens WHERE expiration < NOW() AND userID=?', [$id]);
-
 		}
-
 	}
 
 	if (!$validToken) setcookie('auth_token', null, -1, "/");
-
 }
 
 //generate a guest account
@@ -140,5 +132,4 @@ function guest_login() {
 	$user = new User($id);
 
 	return $id;
-
 }

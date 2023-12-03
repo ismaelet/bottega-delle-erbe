@@ -1,12 +1,6 @@
 <?php
 
-include_once(__ROOT__ . '/vendor/PHPMailer/src/Exception.php');
-include_once(__ROOT__ . '/vendor/PHPMailer/src/PHPMailer.php');
-include_once(__ROOT__ . '/vendor/PHPMailer/src/SMTP.php');
-
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
 class Mail {
 
@@ -38,7 +32,6 @@ class Mail {
 			$ccs = (array) $data['cc'];
 
 			foreach ($ccs as $cc) $mail->AddCC($cc);
-			
 		}
 
 		//reply
@@ -52,7 +45,5 @@ class Mail {
 
 		//send
 		$mail->Send();
-
 	}
-
 }

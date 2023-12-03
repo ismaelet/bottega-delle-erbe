@@ -3,8 +3,8 @@
 global $user;
 
 //load resources
-$this->styles->add(__ROOT__.'/app/templates/styles/header.css');
-$this->scripts->add(__ROOT__.'/app/templates/scripts/header.js');
+$this->styles->add(__ROOT__ . '/app/templates/styles/header.css');
+$this->scripts->add(__ROOT__ . '/app/templates/scripts/header.js');
 
 //setup variables
 $header = [];
@@ -33,18 +33,18 @@ $h_name_m = $h_name;
 //links
 $h_links = [];
 
-$h_links[] = ['title' => 'Home', 'loc' => 'home', 'url' => __HROOT__.'/'];
-$h_links[] = ['title' => 'Carrello ('.order_count().')', 'loc' => 'cart', 'url' => __HROOT__.'/cart', 'cart' => true, 'mob' => true];
+$h_links[] = ['title' => 'Home', 'loc' => 'home', 'url' => __HROOT__ . '/'];
+$h_links[] = ['title' => 'Carrello (' . order_count() . ')', 'loc' => 'cart', 'url' => __HROOT__ . '/cart', 'cart' => true, 'mob' => true];
 //$h_links[] = ['title' => 'Preferiti', 'loc' => 'wishlist', 'url' => __HROOT__.'/w§ishlist', 'logged' => true, 'mob' => true];
-$h_links[] = ['title' => 'Login', 'loc' => 'login', 'url' => __HROOT__.'/login', 'logged' => false, 'mob' => true];
+$h_links[] = ['title' => 'Login', 'loc' => 'login', 'url' => __HROOT__ . '/login', 'logged' => false, 'mob' => true];
 //$h_links[] = ['title' => 'Profilo', 'loc' => 'profile', 'url' => __HROOT__.'/profile', 'logged' => true, 'mob' => true];
-$h_links[] = ['title' => 'Prodotti', 'megamenu' => 'shop', 'loc' => 'shop', 'url' => __HROOT__.'/shop'];
+$h_links[] = ['title' => 'Prodotti', 'megamenu' => 'shop', 'loc' => 'shop', 'url' => __HROOT__ . '/shop'];
 $h_links[] = ['title' => 'Esigenze', 'megamenu' => 'uses', 'loc' => 'shop'];
-$h_links[] = ['title' => 'Erbe e Altro', 'loc' => 'herbs', 'url' => __HROOT__.'/herbs', 'megamenu' => 'herbs'];
-$h_links[] = ['title' => 'Corsi', 'loc' => 'courses', 'url' => __HROOT__.'/courses'];
-$h_links[] = ['title' => 'Novità', 'loc' => 'blog', 'url' => __HROOT__.'/blog'];
-$h_links[] = ['title' => 'Contatti', 'loc' => 'contacts', 'url' => __HROOT__.'/contacts'];
-$h_links[] = ['title' => 'Gestione', 'loc' => 'admin', 'url' => sysData('admin-domain'), 'manager' => true];
+$h_links[] = ['title' => 'Erbe e Altro', 'loc' => 'herbs', 'url' => __HROOT__ . '/herbs', 'megamenu' => 'herbs'];
+$h_links[] = ['title' => 'Corsi', 'loc' => 'courses', 'url' => __HROOT__ . '/courses'];
+$h_links[] = ['title' => 'Novità', 'loc' => 'blog', 'url' => __HROOT__ . '/blog'];
+$h_links[] = ['title' => 'Contatti', 'loc' => 'contacts', 'url' => __HROOT__ . '/contacts'];
+$h_links[] = ['title' => 'Gestione', 'loc' => 'admin', 'url' => '/admin', 'manager' => true];
 
 //dropdowns
 $header['megamenus']['shop']['size'] = 4;
@@ -55,19 +55,18 @@ $res = DB::select('names, tag FROM items_types WHERE category="product" ORDER BY
 while ($row = $res->fetch_assoc($res)) {
 
 	$category['title'] = $row['names'];
-	$category['link'] = html_link('shop?type='.$row['tag']);
+	$category['link'] = html_link('shop?type=' . $row['tag']);
 	$category['list'] = [];
 
 	$links = DB::select('id, name FROM items WHERE type=? ORDER BY name ASC LIMIT 7', [$row['tag']]);
 
-	while ($link = $links->fetch_assoc($res)) $category['list'][] = [$link['name'], html_link('shop/item?id='.$link['id'])];
+	while ($link = $links->fetch_assoc($res)) $category['list'][] = [$link['name'], html_link('shop/item?id=' . $link['id'])];
 
 	$linksN = DB::count('items WHERE type=?', [$row['tag']]);
 
-	if ($linksN > 7) $category['list'][] = ['<strong>Mostra tutti</strong>', html_link('shop?type='.$row['tag'])];
+	if ($linksN > 7) $category['list'][] = ['<strong>Mostra tutti</strong>', html_link('shop?type=' . $row['tag'])];
 
 	$header['megamenus']['shop']['categories'][] = $category;
-
 }
 
 $header['megamenus']['uses']['size'] = 6;
@@ -78,19 +77,18 @@ $res = DB::select('name, tag FROM items_uses ORDER BY id ASC');
 while ($row = $res->fetch_assoc($res)) {
 
 	$category['title'] = $row['name'];
-	$category['link'] = html_link('shop?use='.$row['tag']);
+	$category['link'] = html_link('shop?use=' . $row['tag']);
 	$category['list'] = [];
 
 	$links = DB::select("id, name FROM items WHERE uses LIKE CONCAT('%',?,'%') ORDER BY name ASC LIMIT 5", [$row['tag']]);
 
-	while ($link = $links->fetch_assoc($res)) $category['list'][] = [$link['name'], html_link('shop/item?id='.$link['id'])];
+	while ($link = $links->fetch_assoc($res)) $category['list'][] = [$link['name'], html_link('shop/item?id=' . $link['id'])];
 
 	$linksN = DB::count("items WHERE uses LIKE CONCAT('%',?,'%')", [$row['tag']]);
 
-	if ($linksN > 5) $category['list'][] = ['<strong>Mostra tutti</strong>', html_link('shop?use='.$row['tag'])];
+	if ($linksN > 5) $category['list'][] = ['<strong>Mostra tutti</strong>', html_link('shop?use=' . $row['tag'])];
 
 	$header['megamenus']['uses']['categories'][] = $category;
-
 }
 
 $header['megamenus']['herbs']['size'] = 5;
@@ -100,13 +98,12 @@ $res = DB::select('names, tag FROM items_types WHERE category="herb" ORDER BY id
 while ($row = $res->fetch_assoc($res)) {
 
 	$category['title'] = $row['names'];
-	$category['link'] = html_link('herbs#'.$row['tag']);
+	$category['link'] = html_link('herbs#' . $row['tag']);
 	$category['list'] = [];
 
-	$category['list'][] = ['Mostra tutti', html_link('herbs#'.$row['tag'])];
+	$category['list'][] = ['Mostra tutti', html_link('herbs#' . $row['tag'])];
 
 	$header['megamenus']['herbs']['categories'][] = $category;
-
 }
 
 //login bar
