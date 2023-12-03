@@ -1,0 +1,36 @@
+/* Buttons */
+.mbtn {
+	color: #fff;
+}
+
+.sbtn:hover {
+	border-color: var(--c1) !important;
+}
+
+.scroll-top {
+	display: grid;
+	border: 1px solid #bbb;
+	border-radius: 50%;
+	width: 3.5rem;
+	height: 3.5rem;
+	box-sizing: border-box;
+	place-items: center;
+	cursor: pointer;
+	transition: background .3s, border .3s;
+}
+
+.scroll-top:hover {
+	border-color: var(--c1);
+}
+
+.scroll-top .icon {
+	background-color: #333;
+	width: 50%;
+	height: 50%;
+	transition: background .3s, transform .3s;
+}
+
+.scroll-top:hover .icon {
+	background-color: var(--c1);
+	transform: translateY(-5px);
+}

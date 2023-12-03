@@ -1,0 +1,114 @@
+/* Grid */
+.panel {
+	height: 100%;
+}
+
+.panel .title {
+	margin-bottom: 1rem;
+	color: #404040;
+	font-size: 1.5rem;
+	font-weight: 500;
+}
+
+
+.panel .empty {
+	text-align: center;
+	padding: 1rem 0;
+}
+
+.panel .empty p {
+	display: inline-block;
+	border-bottom: 1px solid #505050;
+	padding: 0 10px 5px 10px;
+	color: #202020;
+	font-size: .9rem;
+}
+
+/* Buttons */
+.panel .mbtn,
+.panel .sbtn {
+	margin: 5px 0 0 0;
+	font-size: .8rem;
+}
+
+.panel.btn-bot {
+	padding-bottom: calc(var(--padding) * 2 + 2.8rem);
+}
+
+.panel.btn-bot .sbtn {
+	border: 1px dashed #ddd;
+	border-radius: 5px;
+	width: calc(100% - var(--padding) * 2);
+	margin: 0;
+	position: absolute;
+	bottom: var(--padding);
+	text-transform: none;
+}
+
+.panel .btn {
+	background-color: transparent;
+	border: none;
+	border-bottom: 1px solid var(--c1);
+	margin-top: 10px;
+	margin-right: 10px;
+	color: var(--c1);
+	font-family: var(--font-text);
+	font-size: .8rem;
+	letter-spacing: .05em;
+	cursor: pointer;
+	transition: color .2s;
+}
+
+.panel .btn.gre {border-color: green; color: green;}
+.panel .btn.red {border-color: red; color: red;}
+
+/* Boxes */
+.panel .box {
+	border: 1px dashed #ddd;
+	border-radius: 5px;
+	padding: 10px;
+	margin: 10px 0;
+}
+
+.panel .box p {
+	color: #505050;
+	font-size: .9rem;
+}
+
+/* Graphics */
+.graph .line {
+	padding: 2rem 0 1rem 0;
+}
+
+.graph .segment {
+	height: 10px;
+}
+
+.graph .segment:first-child {
+	border-radius: 5px 0 0 5px;
+}
+
+.graph .segment:last-child {
+	border-radius: 0 5px 5px 0;
+}
+
+.graph .text {
+	font-size: .9rem
+}
+
+/* Responsive */
+@media (max-width: 1280px) {
+
+	#grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+
+}
+
+@media (max-width: 768px) {
+
+	#grid {
+		grid-template-columns: 1fr;
+	}
+
+}

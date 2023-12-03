@@ -1,0 +1,22 @@
+/* List */
+#list {
+	column-count: 4;
+	column-gap: 2rem;
+}
+
+#list .letter:first-child {
+	margin-top: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+	#list {
+		column-count: 3;
+	}
+}
+
+@media (max-width: 768px) {
+	#list {
+		column-count: 2;
+	}
+}

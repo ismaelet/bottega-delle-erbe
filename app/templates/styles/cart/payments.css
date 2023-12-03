@@ -1,0 +1,23 @@
+/* Payments */
+.payment {
+	display: grid;
+	grid-template-columns: 5rem auto;
+	align-items: center;
+	border-bottom: 1px solid #e0e0e0;
+	padding: 2rem 0;
+	cursor: pointer;
+}
+
+.payment .name {
+	font-size: 1.7rem;
+	font-weight: bold;
+}
+
+.payment .image {
+	margin-bottom: 10px;
+	max-height: 5rem;
+}
+
+.payment .desc {
+	margin-top: 10px;
+}

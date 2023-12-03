@@ -1,0 +1,55 @@
+.form-box {
+	min-height: calc(100vh - 4rem);
+}
+
+/* Form */
+.form {
+	background-color: #fff;
+	padding: 0;
+	overflow: hidden;
+}
+
+.form .title {
+	padding: 10px 2rem;
+	font-size: 1.5rem;
+	text-align: left;
+}
+
+.form .body {
+	padding: 2rem;
+}
+
+.form .footer {
+	padding: 1rem 2rem;
+	text-align: center;
+}
+
+/*Elements*/
+.form .mbtn,
+.form .sbtn {
+	width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+	#menu {
+		background-color: #f3f3f3;
+	}
+
+	#body {
+		padding: 0;
+		background-color: #fff;
+	}
+	
+	.form-box {
+		min-height: 0;
+	}
+
+	.form {
+		background-color: transparent;
+		box-shadow: none;
+		border-radius: 0;
+	}
+
+}
