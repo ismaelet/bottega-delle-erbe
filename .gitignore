@@ -1,2 +1,31 @@
-vendor/
-admin/vendor/
+# Environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dependencies
+/vendor/
+/admin/vendor/
+/node_modules/
+
+# Uploaded content
+/uploads/
+/storage/
+/app/storage/
+
+# Database dumps and backups
+/database/
+*.sql
+*.sqlite
+*.sqlite3
+*.bak
+*.backup
+
+# Logs
+*.log
+
+# GitGuardian
+.cache_ggshield
