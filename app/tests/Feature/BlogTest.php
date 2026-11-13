@@ -12,10 +12,6 @@ beforeEach(function () {
     ]);
     DB::purge('sqlite');
 
-    Schema::create('variables', function (Blueprint $table) {
-        $table->string('name');
-        $table->string('value');
-    });
     Schema::create('posts', function (Blueprint $table) {
         $table->increments('id');
         $table->string('title');
@@ -40,7 +36,6 @@ beforeEach(function () {
         $table->string('type');
         $table->string('uses');
     });
-    DB::table('variables')->insert(['name' => 'public', 'value' => '1']);
 });
 
 test('news lists legacy posts newest first in pages of twelve', function () {
@@ -95,14 +90,7 @@ test('missing or invalid news ids redirect to the listing', function () {
     $this->get('/blog/post?id[]=1')->assertRedirect('/blog');
 });
 
-test('news routes honor the legacy offline setting', function () {
-    $this->get('/offline')->assertRedirect('/');
-    $this->post('/offline')->assertRedirect('/');
-
-    DB::table('variables')->where('name', 'public')->update(['value' => '0']);
-
-    $this->get('/blog')->assertRedirect('/offline');
-    $this->get('/blog/post?id=1')->assertRedirect('/offline');
-    $this->get('/offline')->assertOk()->assertSee('Sito Offline');
-    $this->post('/offline')->assertRedirect('/login');
+test('the offline routes have been removed', function () {
+    $this->get('/offline')->assertNotFound();
+    $this->post('/offline')->assertNotFound();
 });

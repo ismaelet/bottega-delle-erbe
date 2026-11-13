@@ -115,7 +115,9 @@ Its architecture reflects direct control over routing, configuration, database i
 
 ### Administration
 
-The administrative application is maintained separately under `admin/`, with its own Composer configuration.
+The Laravel application provides a Filament administration panel at `/admin`.
+The original administration application remains under `legacy/admin/` for
+reference.
 
 ### Email
 
@@ -143,13 +145,36 @@ Application credentials and uploaded files should be managed outside version con
 The landing page, news listing (`/blog`), articles (`/blog/post?id=...`),
 course listing and details (`/courses` and `/courses/course?id=...`), storefront
 catalogue (`/shop`, `/shop/list`, `/shop/item?id=...`, `/item?id=...`, and
-`/herbs`), the contacts page (`/contacts`), and the offline notice have been
-migrated to Laravel. Checkout,
-authentication, cart indicators, and the administrator's offline bypass are
-not yet migrated. Product add-to-cart controls are disabled until checkout is
-available, and links to unmigrated routes do not work in Laravel yet. The
-Laravel application is not yet a replacement for the public site. The
-administration dashboard is outside the current migration scope.
+`/herbs`), and the contacts page (`/contacts`) have been
+migrated to Laravel. Checkout, public-user authentication and cart indicators
+are not yet migrated. Product add-to-cart controls are disabled until checkout
+is available, and links to unmigrated routes do not work in Laravel yet. The
+Laravel application is not yet a replacement for the public site.
+
+The Filament panel supports legacy administrators and managers, product,
+news and course management, and product CSV imports.
+Public pages are always accessible.
+The old editable administration menu is replaced by Filament navigation.
+Administrators can sign in with their existing email and password;
+legacy plaintext or MD5 passwords are upgraded to Laravel hashes on login.
+This changes the existing password field, so keep a database backup and check
+compatibility before returning to an older application.
+
+Product CSV files use semicolon-separated columns in this order: `name`,
+`type`, `tech`, `info`, `methods`, `ingredients`, `warnings`, `price`.
+An optional first row beginning with `nome` is ignored. Update-only mode
+matches by name, skips empty fields, and reports missing products. Existing
+products retain their name and type during imports. Duplicate names in the
+same file are rejected. The file is validated before writing, but the legacy
+MyISAM tables do not support transactional
+rollback; back up the database before bulk imports.
+
+The panel requires PHP GD and writable public storage. After installing or
+updating Composer dependencies, `filament:assets` publishes its CSS, JavaScript
+and fonts automatically; if deploying dependencies without Composer scripts,
+run `cd app && php artisan filament:assets` explicitly. These generated assets
+are not tracked in Git. Uploaded images use the existing public storage paths
+described below. Existing images are retained when a product changes type.
 
 The contact form sends to the published shop email address using Laravel's
 configured mailer. Configure a real mail transport and an authorized sender
@@ -163,9 +188,7 @@ your normal deployment procedure. The form retains the legacy email-provider
 and message-content spam filters.
 
 The migrated pages read the existing `posts`, `courses`, `items`, `items_types`,
-`items_uses`, and `variables` tables without changing them. The
-`variables.public` setting controls whether the public pages redirect to
-`/offline`. Copy the existing `uploads/blog`, `uploads/courses`, and
+and `items_uses` tables without changing them. Copy the existing `uploads/blog`, `uploads/courses`, and
 `uploads/items` directories to `app/storage/app/public` without overwriting
 newer uploads, and expose `app/storage/app/public` at `app/public/storage`.
 For example, from the repository root, when `app/public/storage` does not

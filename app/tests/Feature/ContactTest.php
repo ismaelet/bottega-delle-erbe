@@ -25,10 +25,6 @@ beforeEach(function () {
     ]);
     DB::purge('sqlite');
 
-    Schema::create('variables', function (Blueprint $table) {
-        $table->string('name');
-        $table->string('value');
-    });
     Schema::create('items_types', function (Blueprint $table) {
         $table->increments('id');
         $table->string('tag');
@@ -46,17 +42,12 @@ beforeEach(function () {
         $table->string('type');
         $table->string('uses');
     });
-    DB::table('variables')->insert(['name' => 'public', 'value' => '1']);
     Mail::extend('contact-test', fn () => new ArrayTransport);
 });
 
-test('contacts page displays the form and honors offline mode', function () {
+test('contacts page displays the form', function () {
     $this->get('/contacts')->assertOk()->assertSee('Scrivici')->assertSee('Via IX Novembre, 8')
         ->assertSee('name="name"', false)->assertSee('name="mail"', false)->assertSee('name="text"', false);
-
-    DB::table('variables')->where('name', 'public')->update(['value' => '0']);
-    $this->get('/contacts')->assertRedirect('/offline');
-    $this->post('/contacts')->assertRedirect('/offline');
 });
 
 test('valid contact messages are sent to the shop with a reply address', function () {

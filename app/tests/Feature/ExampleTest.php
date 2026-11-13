@@ -12,10 +12,6 @@ beforeEach(function () {
     ]);
     DB::purge('sqlite');
 
-    Schema::create('variables', function (Blueprint $table) {
-        $table->string('name');
-        $table->string('value');
-    });
     Schema::create('items_types', function (Blueprint $table) {
         $table->increments('id');
         $table->string('tag');
@@ -57,7 +53,6 @@ beforeEach(function () {
         $table->text('text');
         $table->string('schedule');
     });
-    DB::table('variables')->insert(['name' => 'public', 'value' => '1']);
     DB::table('items_types')->insert([
         ['tag' => 'int', 'name' => 'Integratore', 'names' => 'Integratori', 'category' => 'product'],
         ['tag' => 'her', 'name' => 'Pianta', 'names' => 'Piante', 'category' => 'herb'],
@@ -88,11 +83,8 @@ test('the landing page displays recent visible products and news from the legacy
         ->assertSee("L'acquisto online non è ancora disponibile.", false);
 });
 
-test('the landing page handles a missing highlighted product and honors offline mode', function () {
+test('the landing page handles a missing highlighted product', function () {
     $this->get('/')->assertOk()->assertViewHas('highlightedProduct', null);
-
-    DB::table('variables')->where('name', 'public')->update(['value' => '0']);
-    $this->get('/')->assertRedirect('/offline');
 });
 
 test('courses list the newest five and show an empty message when appropriate', function () {

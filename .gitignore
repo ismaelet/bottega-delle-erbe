@@ -12,6 +12,9 @@
 # Ignore build artifacts
 /app/public/build
 /app/public/hot
+/app/public/css/filament
+/app/public/js/filament
+/app/public/fonts/filament
 
 # Ignore storage files and the storage symlink
 /app/storage/*
