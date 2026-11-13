@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600;700&family=Playfair+Display:ital@0;1&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+
+:root {
+    --c1: #1d3a35;
+    --c1-h: #2f5c54;
+    --c2: #4a9f88;
+    --c3: #c89542;
+    --c4: #5c3814;
+    --font-main: 'Raleway', sans-serif;
+    --font-side: 'Playfair Display', sans-serif;
+    --font-text: 'Open Sans', sans-serif;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: var(--font-text);
+}
+
+.legacy-icon {
+    display: inline-block;
+    background-color: currentColor;
+    mask: var(--icon) center / contain no-repeat;
+}
+
+.footer-soc-icon {
+    color: #729288;
+}
+
+.footer-soc-icon:hover {
+    color: var(--c3);
+}
+
+.h-icoM-rot {
+    display: block;
+}

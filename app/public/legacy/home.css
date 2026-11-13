@@ -1,0 +1,29 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.read-more {
+    background: none;
+    border: 0;
+    border-bottom: 1px dashed;
+    font-family: var(--font-text);
+}
+
+.item-cart {
+    background: transparent;
+}
+
+.item-cart:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+
+.item-cart .icon {
+    background-color: var(--c1);
+}
+
+.slider-arrow {
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--c1);
+}

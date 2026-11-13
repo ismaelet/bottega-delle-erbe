@@ -41,8 +41,9 @@ services:
       MAIL_USERNAME: ${MAIL_USERNAME:-}
       MAIL_PASSWORD: ${MAIL_PASSWORD:-}
       MAIL_ENCRYPTION: ${MAIL_ENCRYPTION:-tls}
-      MAIL_FROM_ADDRESS: noreply@bottega-delle-erbe.example.com
-      MAIL_FROM_NAME: La Bottega delle Erbe
+      MAIL_SCHEME: ${MAIL_SCHEME:-smtp}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS:-noreply@bottega-delle-erbe.example.com}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME:-La Bottega delle Erbe}
     depends_on:
       db:
         condition: service_healthy

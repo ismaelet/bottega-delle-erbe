@@ -1,0 +1,87 @@
+/* Structure */
+header.floating #h-pan {
+	background-color: rgba(255,255,255,.8) !important;
+}
+
+/* Structure */
+.content-wrap {
+	max-width: 1680px;
+}
+
+/* Slider */
+#slider {
+	background-color: #eee;
+	height: 25rem;
+}
+
+#bgr {
+	opacity: .4;
+}
+
+#title {
+	margin-right: -.5em;
+	top: 1.5rem;
+	color: var(--c1);
+	font-size: min(4rem, 12vw);
+	letter-spacing: .5em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+/* Posts */
+.posts {
+	grid-column-gap: 5%;
+	grid-row-gap: 4rem;
+}
+
+.post .box {
+	box-shadow: 0 1.1rem 1.2rem -.5rem rgba(0, 0, 0, .1);
+}
+
+.post .image {
+	background-color: #fff;
+	padding-bottom: 66%;
+}
+
+.post.big .image {
+	padding-bottom: 132%;
+}
+
+.post img.contain {
+	object-fit: contain;
+}
+
+.post .body {
+	background-color: #FCFBF8;
+	padding: 3rem;
+}
+
+.post .text {
+	display: -webkit-box;
+	overflow: hidden;
+	line-height: 1.8;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 4;
+	-webkit-box-orient: vertical;
+}
+
+.post .more {
+	transition: color .3s;
+}
+
+/* Pages */
+.page {
+	color: #a0a0a0;
+	margin: 0 10px;
+	transition: color .2s;
+}
+
+
+.page.active {
+	color: #202020;
+	border-bottom: 1px solid #202020;
+}
+
+.page:hover {
+	color: #202020;
+}

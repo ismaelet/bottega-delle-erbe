@@ -17,6 +17,7 @@
 /app/storage/*
 !/app/storage/**/
 !/app/storage/**/.gitignore
+/app/public/storage
 
 # Ignore legacy files
 /legacy

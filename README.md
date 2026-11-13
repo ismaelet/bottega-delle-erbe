@@ -41,17 +41,15 @@ Not all features are necessarily active or fully configured in the current versi
 
 | Directory | Description |
 |---|---|
-| `app/` | Main PHP application, configuration, and modules |
-| `admin/` | Administrative application and its dependencies |
-| `pages/` | Website pages, assets, and presentation resources |
-| `system/` | Supporting application functionality |
-| `listeners/` | Application event and request handlers |
-| `uploads/` | Runtime-uploaded content, excluded from Git |
-| `database/` | Local database resources, excluded from Git |
+| `app/` | Laravel application |
+| `legacy/` | Original public website, administration, uploads, and example database |
+| `docker/` | Root Docker configuration |
 
-The root application and administrative application maintain separate Composer dependency configurations.
+The legacy public and administrative applications maintain separate Composer dependency configurations.
 
-## Local Setup
+## Legacy Local Setup
+
+The following legacy instructions apply inside `legacy/`, not at the repository root.
 
 ### Requirements
 
@@ -140,9 +138,57 @@ Application credentials and uploaded files should be managed outside version con
 
 ## Project Status
 
-**Legacy portfolio project**
+**Laravel migration in progress**
 
-This repository is retained as a record of the original implementation and its development history.
+The landing page, news listing (`/blog`), articles (`/blog/post?id=...`),
+course listing and details (`/courses` and `/courses/course?id=...`), storefront
+catalogue (`/shop`, `/shop/list`, `/shop/item?id=...`, `/item?id=...`, and
+`/herbs`), the contacts page (`/contacts`), and the offline notice have been
+migrated to Laravel. Checkout,
+authentication, cart indicators, and the administrator's offline bypass are
+not yet migrated. Product add-to-cart controls are disabled until checkout is
+available, and links to unmigrated routes do not work in Laravel yet. The
+Laravel application is not yet a replacement for the public site. The
+administration dashboard is outside the current migration scope.
+
+The contact form sends to the published shop email address using Laravel's
+configured mailer. Configure a real mail transport and an authorized sender
+before enabling the form in production. For the root Docker setup, set
+`MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`,
+`MAIL_SCHEME` (`smtp` or `smtps` as appropriate), `MAIL_FROM_ADDRESS`, and
+`MAIL_FROM_NAME` in the Compose environment. The default `log` mailer and
+placeholder sender do not deliver messages; the form reports an error instead
+of claiming success. Apply environment changes to the app container using
+your normal deployment procedure. The form retains the legacy email-provider
+and message-content spam filters.
+
+The migrated pages read the existing `posts`, `courses`, `items`, `items_types`,
+`items_uses`, and `variables` tables without changing them. The
+`variables.public` setting controls whether the public pages redirect to
+`/offline`. Copy the existing `uploads/blog`, `uploads/courses`, and
+`uploads/items` directories to `app/storage/app/public` without overwriting
+newer uploads, and expose `app/storage/app/public` at `app/public/storage`.
+For example, from the repository root, when `app/public/storage` does not
+already exist:
+
+```bash
+mkdir -p app/storage/app/public/blog
+cp -n legacy/uploads/blog/*.jpg app/storage/app/public/blog/
+cp -an legacy/uploads/courses app/storage/app/public/
+cp -an legacy/uploads/items app/storage/app/public/
+ln -s ../storage/app/public app/public/storage
+```
+
+In production, use the actual deployed upload directory as the source, not the
+example files in `legacy/`. The relative link works both on the host and in the
+root Docker container. Uploaded files and the link are not tracked by Git.
+
+The legacy database must be retained. Laravel's starter migration no longer
+creates or drops the legacy `users` table; it only manages Laravel's
+`password_reset_tokens` and `sessions` tables. This does not yet adapt Laravel
+authentication to the legacy user schema. Back up the database and review all
+migrations before applying them to an existing installation. In particular,
+do not use `migrate:fresh` or other commands that drop existing tables.
 
 Further compatibility, functionality, and security testing is recommended before production deployment.
 

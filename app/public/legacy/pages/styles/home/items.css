@@ -1,0 +1,34 @@
+/*Items*/
+#items {
+	padding-top: 3rem;
+	padding-bottom: 4rem;
+}
+
+#items-bgr {opacity: .05;}
+
+#items > .overlay {
+	background: linear-gradient(rgba(255,255,255,1) 20%, rgba(255,255,255,0), rgba(255,255,255,1) 80%);
+}
+
+#items-title {font-size: 4rem;}
+
+#items-stitle {font-size: 1.2rem;}
+
+.title-line {
+	height: 2px;
+	width: 15rem;
+	margin: 1rem 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+
+	#items .title-box {
+		text-align: center;
+	}
+
+	#items .mbtn {
+		width: 100%;
+	}
+	
+}
