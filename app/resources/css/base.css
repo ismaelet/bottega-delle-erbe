@@ -1,0 +1,61 @@
+/* Main layout */
+.content-grid,
+.full-width {
+  --breakout-column: calc((var(--spacing-breakout) - var(--spacing-content)) / 2);
+  display: grid;
+  grid-template-columns:
+    [full-width-start] minmax(var(--spacing-content-padding), 1fr)
+    [breakout-start] minmax(0, var(--breakout-column))
+    [content-start] min(100% - var(--spacing-content-padding) * 2, var(--spacing-content))
+    [content-end] minmax(0, var(--breakout-column))
+    [breakout-end] minmax(var(--spacing-content-padding), 1fr) [full-width-end];
+}
+
+:where(.content-grid > :not(.breakout, .full-width, .fill-width)),
+:where(.full-width > :not(.breakout, .full-width, .fill-width)) {
+  grid-column: content;
+}
+
+:where(.content-grid > .breakout),
+:where(.full-width > .breakout) {
+  grid-column: breakout;
+}
+
+:where(.content-grid > .full-width),
+:where(.full-width > .full-width),
+:where(.fill-width) {
+  grid-column: full-width;
+}
+
+/* Content types */
+@utility stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-stack, 1rem);
+}
+
+@utility prose {
+  > * + * {
+    margin-block-start: var(--spacing-prose, 1em);
+  }
+}
+
+@utility pile {
+  display: grid;
+  grid-template-areas: "pile";
+  place-items: center;
+
+  & > * {
+    grid-area: pile;
+  }
+}
+
+/* Utility classes for columns */
+@utility columns-* {
+  grid-template-columns: repeat(auto-fill, minmax(min(--value([length]), 100%), 1fr));
+}
+
+@utility flex-columns-* {
+  flex-grow: 1;
+  width: min(--value([length]), 100%);
+}

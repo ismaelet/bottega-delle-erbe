@@ -1,0 +1,116 @@
+/* Assets */
+@font-face {
+  font-family: "FontName";
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/FontName.ttf") format("truetype");
+}
+
+/* Theme */
+@theme {
+  /* Theme: Colors */
+  --color-background-400: var(--color-white);
+
+  --color-surface-400: var(--color-white);
+
+  --color-heading-400: var(--color-neutral-400);
+
+  --color-text-400: var(--color-slate-600);
+
+  --color-border-400: var(--color-slate-300);
+
+  --color-primary-400: hsl(30deg 100% 50%);
+
+  /* Theme: Fonts */
+  --font-heading: "FontName", system-ui, sans-serif;
+  --font-sans: "FontName", system-ui, sans-serif;
+
+  /* Theme: Spacing */
+  --spacing-breakout: 1440px;
+  --spacing-content: 1200px;
+  --spacing-content-padding: clamp(1rem, 2vw + 0.5rem, 2rem);
+  --spacing-section: clamp(0rem, 5vw + 2rem, 7.5rem);
+  --spacing-border: 1px;
+
+  /* Theme: Breakpoints */
+  --breakpoint-xs: 27rem;
+}
+
+/* Dark mode */
+.dark {
+  /* Dark mode: Colors */
+  --color-background-400: var(--color-slate-900);
+
+  --color-surface-400: var(--color-slate-800);
+
+  --color-heading-400: var(--color-white);
+
+  --color-text-400: var(--color-slate-300);
+
+  --color-border-400: alpha(from #fff / 10%);
+
+  /* Reset text color */
+  color: var(--color-text-400);
+}
+
+/* Basic setup */
+:root {
+  interpolate-size: allow-keywords;
+}
+
+body {
+  background-color: var(--color-background-400);
+  color: var(--color-text-400);
+}
+
+/* Utilities */
+@utility card {
+  border: 1px solid var(--color-border-400);
+  background-color: var(--color-surface-400);
+  border-radius: var(--radius-lg);
+}
+
+@utility text-trim {
+  text-box: trim-both cap alphabetic;
+}
+
+@utility text-highlight {
+  color: var(--color-heading-400);
+  font-weight: var(--font-weight-semibold);
+}
+
+@utility text-link {
+  @apply transition-colors;
+  color: var(--color-heading-400);
+  font-weight: var(--font-weight-medium);
+  text-decoration: underline;
+
+  &:hover {
+    color: var(--color-primary-500);
+  }
+}
+
+/* Components */
+@layer components {
+  /* Details content animation */
+  details {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 0fr;
+    align-content: flex-start;
+    transition: grid-template-rows 300ms ease;
+
+    &[open] {
+      grid-template-rows: auto 1fr;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  details::details-content {
+    content-visibility: visible;
+    overflow: hidden;
+  }
+}

@@ -1,31 +1,22 @@
-# Environment files
+# Ignore environment and configuration files
 .env
-.env.*
-!.env.example
-**/.env
-**/.env.*
-!**/.env.example
+.s3cfg
 
-# Dependencies
-/vendor/
-/admin/vendor/
-/node_modules/
+# Ignore IDE settings
+/.vscode/settings.json
 
-# Uploaded content
-/uploads/
-/storage/
-/app/storage/
+# Ignore dependencies
+/app/node_modules
+/app/vendor
 
-# Database dumps and backups
-/database/
-*.sql
-*.sqlite
-*.sqlite3
-*.bak
-*.backup
+# Ignore build artifacts
+/app/public/build
+/app/public/hot
 
-# Logs
-*.log
+# Ignore storage files and the storage symlink
+/app/storage/*
+!/app/storage/**/
+!/app/storage/**/.gitignore
 
-# GitGuardian
-.cache_ggshield
+# Ignore legacy files
+/legacy

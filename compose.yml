@@ -1,0 +1,84 @@
+name: bottega-delle-erbe
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+      target: base
+    ports:
+      - 8000:80
+    working_dir: /var/www/html
+    configs:
+      - source: caddy_config
+        target: /etc/frankenphp/Caddyfile
+      - source: php_config
+        target: /usr/local/etc/php/conf.d/app.ini
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      APP_NAME: La Bottega delle Erbe
+      APP_URL: http://localhost:8000
+      APP_ENV: local
+      APP_DEBUG: true
+      APP_LOCALE: it
+      APP_FALLBACK_LOCALE: en
+      APP_KEY: ${APP_KEY:?APP_KEY is required}
+
+      CACHE_STORE: file
+      SESSION_DRIVER: file
+
+      DB_CONNECTION: mariadb
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: project_database
+      DB_USERNAME: root
+      DB_PASSWORD: rootpassword
+
+      MAIL_MAILER: ${MAIL_MAILER:-log}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_ENCRYPTION: ${MAIL_ENCRYPTION:-tls}
+      MAIL_FROM_ADDRESS: noreply@bottega-delle-erbe.example.com
+      MAIL_FROM_NAME: La Bottega delle Erbe
+    depends_on:
+      db:
+        condition: service_healthy
+
+  vite:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+      target: deps
+    working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html
+    command: /bin/bash -c "pnpm install --frozen-lockfile && pnpm run dev --host 0.0.0.0"
+    ports:
+      - 5173:5173
+
+  db:
+    image: mariadb:12.3
+    environment:
+      MARIADB_DATABASE: project_database
+      MARIADB_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  db:
+
+configs:
+  caddy_config:
+    file: ./docker/app/Caddyfile
+  php_config:
+    file: ./docker/app/app.ini
